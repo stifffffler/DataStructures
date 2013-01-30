@@ -1,4 +1,5 @@
-﻿using System;
+//Copyrighted by Roman.Labish, e-mail: stifffffler@gmail.com
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
