@@ -1,0 +1,70 @@
+﻿private void deleteFixUp(SWRedBlackTree tree, SWRedBlackNode node, SWRedBlackNode nodeParent, boolean nodeIsLeft) {
+    while (node != tree._root && isBlack(node)) {
+        SWRedBlackNode w;
+        if (nodeIsLeft) {
+            w = nodeParent._right;
+            if (isRed(w)) {
+                w._isRed = false;
+                nodeParent._isRed = true;
+                leftRotate(tree, nodeParent);
+                w = nodeParent._right;
+            }
+
+            if (isBlack(w._left) && isBlack(w._right)) {
+                w._isRed = true;
+                node = nodeParent;
+                nodeParent = node._parent;
+                nodeIsLeft = (node == nodeParent._left);
+            } else {
+                if (isBlack(w._right)) {
+                    w._left._isRed = false;
+                    w._isRed = true;
+                    rightRotate(tree, w);
+                    w = nodeParent._right;
+                }
+
+                w._isRed = nodeParent._isRed;
+                nodeParent._isRed = false;
+                if (w._right != null) {
+                    w._right._isRed = false;
+                }
+                leftRotate(tree, nodeParent);
+                node = tree._root;
+                nodeParent = null;
+            }
+        } else { /* nodeIsLeft == false */
+            w = nodeParent._left;
+            if (isRed(w)) {
+                w._isRed = false;
+                nodeParent._isRed = true;
+                rightRotate(tree, nodeParent);
+                w = nodeParent._left;
+            }
+
+            if (isBlack(w._right) && isBlack(w._left)) {
+                w._isRed = true;
+                node = nodeParent;
+                nodeParent = node._parent;
+                nodeIsLeft = (node == nodeParent._left);
+            } else {
+                if (isBlack(w._left)) {
+                    w._right._isRed = false;
+                    w._isRed = true;
+                    leftRotate(tree, w);
+                    w = nodeParent._left;
+                }
+
+                w._isRed = nodeParent._isRed;
+                nodeParent._isRed = false;
+                if (w._left != null) {
+                    w._left._isRed = false;
+                }
+                rightRotate(tree, nodeParent);
+                node = tree._root;
+                nodeParent = null;
+            }
+        }
+    }
+
+    node._isRed = false;
+}
